@@ -9,7 +9,7 @@ class App:
             ('Content-Type', 'text/plain'),
             ('Content-Length', str(len(result)))
         ])
-        return result.encode('utf-8')
+        return [result.encode('utf-8')]
 
     def save(self, environ, start_response):
         status = '200 OK'
@@ -19,4 +19,4 @@ class App:
         # Обработка сохранения здесь. В body находится тело запроса в виде строки.
 
         start_response(status, [('Content-Length', '0')])
-        return b''
+        return [b'']
