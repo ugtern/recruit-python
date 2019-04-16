@@ -1,7 +1,9 @@
+import time
+
 class App:
     def show(self, environ, start_response):
         status = '200 OK'
-        result = ''
+        result = '1'
 
         # Обработка поиска здесь. Данные для выдачи пользователю необходимо внести в переменную result в виде строки.
 
@@ -15,6 +17,17 @@ class App:
         status = '200 OK'
         length = int(environ['CONTENT_LENGTH'])
         body = environ['wsgi.input'].read(length).decode('utf-8')
+
+        mass = [i.split('=') for i in body.split('&')]
+        data_time = time.strftime("%Y-%m-%d %H.%M", time.localtime(int(mass[0][1]))).split(' ')
+
+        print(data_time)
+        print(mass[1][1].replace('.',' '))
+        print(mass[2][1].replace('+',' '))
+
+        f = open('log.txt','r')
+        f.write('Отправитель: '+mass[1][1].replace('.',' ')+' Дата: '+data_time[0]+' Время: '+data_time[1])
+        f.close()
 
         # Обработка сохранения здесь. В body находится тело запроса в виде строки.
 
