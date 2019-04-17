@@ -21,8 +21,13 @@ test_data = [
 ]
 
 #print(dict([('1',i)] for i in test_data))
+prep=[]
+for i in range(len(test_data)):
+    prep = prep+[', '.join("{!s}={!r}".format(key,val) for (key,val) in test_data[i].items())]
 
-d={i:json.dumps(test_data[i], separators=(',',':')) for i in range(len(test_data))}
+print(prep)
+a = 'abc'
+d={str(a[i]):prep[i] for i in range(len(prep))}
 print(d,type(d))
 
 """
@@ -49,11 +54,12 @@ def test_1(test_data):
 def test_2(test_data):
     post_fields = test_data  # POST
 
-    request = Request(url, urlencode(post_fields).encode('utf-8'))
-    print(request,type(request))
-    json = urlopen(request).read().decode()
+    request = Request(url, urlencode(post_fields).encode('utf-8', errors='xmlcharrefreplace'))
+    print(post_fields, type(post_fields))
+    json = urlopen(request).read().decode('ascii', errors='xmlcharrefreplace')
 
     print(json)
 
-#test_2(d)
-test_1(test_data)
+test_2(d)
+
+#test_1(test_data)

@@ -17,11 +17,11 @@ class App:
     def save(self, environ, start_response):
         status = '200 OK'
         length = int(environ['CONTENT_LENGTH'])
+
         body = environ['wsgi.input'].read(length).decode('utf-8')
 
-        print(environ['wsgi.input'],type(environ['wsgi.input']),length)
+        print(json.loads(body))
 
-        print(urlopen(environ['wsgi.input']).read(length).decode('utf-8'))
 
         """
         mass = [i.split('=') for i in body.split('&')]
@@ -34,7 +34,6 @@ class App:
         f = open('log.txt','a')
         f.write('Отправитель: '+mass[1][1].replace('.',' ')+' Дата: '+data_time[0]+' Время: '+data_time[1]+'\n')
         f.close()
-
         """
         # Обработка сохранения здесь. В body находится тело запроса в виде строки.
 
