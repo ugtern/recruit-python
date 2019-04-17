@@ -25,8 +25,8 @@ class App:
         print(mass[1][1].replace('.',' '))
         print(mass[2][1].replace('+',' '))
 
-        f = open('log.txt','r')
-        f.write('Отправитель: '+mass[1][1].replace('.',' ')+' Дата: '+data_time[0]+' Время: '+data_time[1])
+        f = open('log.txt','a')
+        f.write('Отправитель: '+mass[1][1].replace('.',' ')+' Дата: '+data_time[0]+' Время: '+data_time[1]+'\n')
         f.close()
 
         # Обработка сохранения здесь. В body находится тело запроса в виде строки.
