@@ -19,8 +19,10 @@ test_data = [
   }
 ]
 
+j=0
 url = 'http://localhost:8080/' # URL
 for i in test_data:
+    i.update({'id':str(j)})
     print(i)
     post_fields = i   # POST
 
@@ -28,3 +30,4 @@ for i in test_data:
     json = urlopen(request).read().decode()
 
     print(json)
+    j+=1
