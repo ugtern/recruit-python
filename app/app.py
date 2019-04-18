@@ -8,13 +8,16 @@ class App:
         status = '200 OK'
         result = ''
 
+        db_connect = my_connect('localhost','hids','qwert123',"home_data")
+        result = db_connect.test('dialogs')
+        db_connect.close()
         # Обработка поиска здесь. Данные для выдачи пользователю необходимо внести в переменную result в виде строки.
 
         start_response(status, [
             ('Content-Type', 'text/plain'),
             ('Content-Length', str(len(result)))
         ])
-        return [result.encode('utf-8')]
+        return [result.encode('cp1251')]
 
     def save(self, environ, start_response):
         status = '200 OK'
@@ -24,8 +27,8 @@ class App:
 
         our_data = wwb(body)
 
-        db_connect = my_connect('localhost','hids','qwert123',"home_data", our_data.start_date, our_data.end_date,our_data.lenth)
-        db_connect.ins('dialogs')
+        db_connect = my_connect('localhost','hids','qwert123',"home_data")
+        db_connect.ins('dialogs', our_data.start_date, our_data.end_date,our_data.lenth)
         db_connect.test('dialogs')
         db_connect.close()
 

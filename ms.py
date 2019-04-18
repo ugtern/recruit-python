@@ -2,7 +2,7 @@ import mysql.connector, time
 from datetime import datetime
 
 class my_connect:
-    def __init__(self, host, user, user_pas, db_name, start_time, end_time, lenth):
+    def __init__(self, host, user, user_pas, db_name):
 
         self.mydb = mysql.connector.connect(
             host=host,
@@ -11,12 +11,13 @@ class my_connect:
             database=db_name
         )
 
+        self.mycursor = self.mydb.cursor()
+
+    def ins(self, table_name, start_time, end_time, lenth):
+
         self.start_time = time.strftime("%Y,%m,%d,%H,%M,%S", time.localtime(start_time))
         self.end_time = time.strftime("%Y,%m,%d,%H,%M,%S", time.localtime(end_time))
         self.lenth = lenth
-        self.mycursor = self.mydb.cursor()
-
-    def ins(self, table_name):
 
         start_time = self.start_time.split(',')
         end_time = self.end_time.split(',')
@@ -33,9 +34,14 @@ class my_connect:
 
     def test(self, table_name):
 
+        self.m_data = ''
+
         self.mycursor.execute('SELECT * FROM dialogs')
         for i in self.mycursor:
-            print(i)
+            self.m_data = self.m_data+'Запись '+str(i[0])+': Сообщений - '+str(i[3])+' шт с '+str(i[1])+' по '+str(i[2])+'\n'
+
+        print(self.m_data)
+        return self.m_data
 
     def close(self):
 
