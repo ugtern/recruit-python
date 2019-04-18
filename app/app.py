@@ -1,5 +1,4 @@
 import time,json
-from urllib.request import urlopen
 
 class App:
     def show(self, environ, start_response):
@@ -20,8 +19,7 @@ class App:
 
         body = environ['wsgi.input'].read(length).decode('utf-8')
 
-        print(json.loads(body))
-
+        print(body.split('='))
 
         """
         mass = [i.split('=') for i in body.split('&')]

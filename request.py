@@ -26,8 +26,9 @@ for i in range(len(test_data)):
     prep = prep+[', '.join("{!s}={!r}".format(key,val) for (key,val) in test_data[i].items())]
 
 print(prep)
-a = 'abc'
-d={str(a[i]):prep[i] for i in range(len(prep))}
+d={str(i):prep[i] for i in range(len(prep))}
+
+d=json.dumps(d)
 print(d,type(d))
 
 """
@@ -54,9 +55,9 @@ def test_1(test_data):
 def test_2(test_data):
     post_fields = test_data  # POST
 
-    request = Request(url, urlencode(post_fields).encode('utf-8', errors='xmlcharrefreplace'))
+    request = Request(url, urlencode(post_fields).encode())
     print(post_fields, type(post_fields))
-    json = urlopen(request).read().decode('ascii', errors='xmlcharrefreplace')
+    json = urlopen(request).read().decode()
 
     print(json)
 
