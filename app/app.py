@@ -1,9 +1,12 @@
-import time
+import time,json
+from ms import my_connect
+from work_with_body import wwb
+from save_to_txt import save_to_f
 
 class App:
     def show(self, environ, start_response):
         status = '200 OK'
-        result = '1'
+        result = ''
 
         # Обработка поиска здесь. Данные для выдачи пользователю необходимо внести в переменную result в виде строки.
 
@@ -16,18 +19,17 @@ class App:
     def save(self, environ, start_response):
         status = '200 OK'
         length = int(environ['CONTENT_LENGTH'])
-        body = environ['wsgi.input'].read(length).decode('utf-8')
 
-        mass = [i.split('=') for i in body.split('&')]
-        data_time = time.strftime("%Y-%m-%d %H.%M", time.localtime(int(mass[0][1]))).split(' ')
+        body = json.loads(environ['wsgi.input'].read(length).decode('utf-8')) # add loads from json dumps
 
-        print(data_time)
-        print(mass[1][1].replace('.',' '))
-        print(mass[2][1].replace('+',' '))
+        our_data = wwb(body)
 
-        f = open('log.txt','a')
-        f.write('Отправитель: '+mass[1][1].replace('.',' ')+' Дата: '+data_time[0]+' Время: '+data_time[1]+'\n')
-        f.close()
+        db_connect = my_connect('localhost','hids','qwert123',"home_data", our_data.start_date, our_data.end_date,our_data.lenth)
+        db_connect.ins('dialogs')
+        db_connect.test('dialogs')
+        db_connect.close()
+
+        save_to_f(body)
 
         # Обработка сохранения здесь. В body находится тело запроса в виде строки.
 
