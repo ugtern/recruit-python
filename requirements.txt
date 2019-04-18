@@ -1,2 +1,3 @@
 git+https://github.com/ericmoritz/wsgirouter.git
 bjoern
+requests
