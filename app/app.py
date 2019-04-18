@@ -17,9 +17,17 @@ class App:
         status = '200 OK'
         length = int(environ['CONTENT_LENGTH'])
 
-        body = environ['wsgi.input'].read(length).decode('utf-8')
+        body = json.loads(environ['wsgi.input'].read(length).decode('utf-8')) # add loads from json dumps
 
-        print(body.split('='))
+        for i in range(len(body)):
+            if i==0:
+                start_date = body[i]['time']
+            elif i==(len(body)-1):
+                end_date = body[i]['time']
+
+        start_date = time.strftime("%Y,%m,%d,%H,%M,%S", time.localtime(start_date))
+
+        print(start_date, end_date)
 
         """
         mass = [i.split('=') for i in body.split('&')]
